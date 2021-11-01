@@ -14,7 +14,7 @@ function caesar(string, cipher) {
         let newIndex = index + cipher;
         let limitedIndex = newIndex % alphabet.length;
         let newV = alphabet[limitedIndex];
-        
+
         return newV[v.toLowerCase() === v ? "toLowerCase" : "toUpperCase"]();
     });
 }
@@ -96,7 +96,7 @@ caesarCipher.addEventListener("click", event => {
     let output = textbox.querySelector("#hack-tool-ouput");
 
     input.onkeyup = input.onchange = input.oninput = event => {
-        output.textContent = caesar(text, Number(input.value));
+        output.textContent = caesar(text, input.value ? Number(input.value) : 0);
     }
 
     function erase() {
