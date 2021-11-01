@@ -11,3 +11,12 @@ function caesar(string, cipher) {
 String.prototype.caesar = function(cipher) {
     return caesar(this, cipher);
 };
+
+Math.factorial = function(number) {
+    let toReturn = number;
+    while(number > 1) {
+        number--;
+        toReturn *= number;
+    }
+    return toReturn;
+}
