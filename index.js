@@ -5,7 +5,18 @@ String.prototype.map = function(func) {
 };
 
 function caesar(string, cipher) {
-    return string.map(v => alphabet.indexOf(v.toLowerCase()) + 1 ? (alphabet[(alphabet.indexOf(v.toLowerCase()) + cipher) % alphabet.length])[v.toLowerCase() === v ? "toLowerCase" : "toUpperCase"]() : v);
+    return string.map(v => {
+        let exists = alphabet.indexOf(v.toLowerCase()) + 1;
+
+        if(!exists) return v;
+
+        let index = alphabet.indexOf(v.toLowerCase());
+        let newIndex = index + cipher;
+        let limitedIndex = newIndex % alphabet.length;
+        let newV = alphabet[limitedIndex];
+        
+        return newV[v.toLowerCase() === v ? "toLowerCase" : "toUpperCase"]();
+    });
 }
 
 String.prototype.caesar = function(cipher) {
@@ -85,7 +96,7 @@ caesarCipher.addEventListener("click", event => {
     let output = textbox.querySelector("#hack-tool-ouput");
 
     input.onkeyup = input.onchange = input.oninput = event => {
-        output.textContent = caesar(text, input.value);
+        output.textContent = caesar(text, Number(input.value));
     }
 
     function erase() {
@@ -95,7 +106,6 @@ caesarCipher.addEventListener("click", event => {
             let t = textbox.getBoundingClientRect();
 
             if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
-                console.log(true);
                 erase();
                 return;
             }
