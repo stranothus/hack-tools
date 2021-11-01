@@ -3,6 +3,7 @@
     border-radius: 5px;
     box-shadow: 0 0 5px #00000050;
     background-color: #FFFFFF;
+    z-index: 1000;
 }
 #hack-tool-contextmenu span {
     font-family: sans-serif;

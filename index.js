@@ -12,7 +12,7 @@ String.prototype.caesar = function(cipher) {
     return caesar(this, cipher);
 };
 
-Math.factorial = function(number) {
+function factorial(number) {
     let toReturn = number;
     while(number > 1) {
         number--;
@@ -31,18 +31,22 @@ function getSelectionText() {
     return text;
 }
 
+var text = "";
+
 const contextmenu = document.createElement("div");
-contextmenu.id = "hack-tool-contextmenu"
+contextmenu.id = "hack-tool-contextmenu";
 
 contextmenu.innerHTML = `
-    <span>Caesar Cipher</span>
-    <span>Binary</span>
-    <span>Pig Latin</span>
-    <span>Context Menu</span>
+    <span id = "hack-tool-caesar">Caesar Cipher</span>
+    <span id = "hack-tool-binary">Binary</span>
+    <span id = "hack-tool-latin">Pig Latin</span>
+    <span id = "hack-tool-real-contextmenu">Context Menu</span>
 `;
 
+const caesarCipher = contextmenu.querySelector("#hack-tool-caesar")
+
 window.addEventListener("contextmenu", event => {
-    let text = getSelectionText();
+    text = getSelectionText();
 
     if(text) {
         event.preventDefault();
@@ -59,4 +63,45 @@ window.addEventListener("contextmenu", event => {
             document.body.removeChild(contextmenu);
         }, { once: true });
     }
-})
+});
+
+const textbox = document.createElement("div");
+textbox.id = "hack-tool-textbox";
+
+caesarCipher.addEventListener("click", event => {
+    textbox.innerHTML = `
+        <div id = "hack-tool-ouput">${text}</div>
+        <input type = "number" id = "hack-tool-input">
+    `;
+
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
+
+    document.body.appendChild(textbox);
+
+    let input = textbox.querySelector("#hack-tool-input");
+    let output = textbox.querySelector("#hack-tool-ouput");
+
+    input.onkeyup = input.onchange = input.oninput = event => {
+        output.textContent = caesar(text, input.value);
+    }
+
+    function erase() {
+        window.addEventListener("click", event => {
+            event.preventDefault();
+
+            let t = textbox.getBoundingClientRect();
+
+            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
+                console.log(true);
+                erase();
+                return;
+            }
+            document.body.removeChild(textbox);
+        }, { once: true });
+    }
+
+    setTimeout(erase, 100);
+});
