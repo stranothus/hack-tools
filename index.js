@@ -36,11 +36,8 @@ contextmenu.id = "hack-tool-contextmenu"
 
 contextmenu.innerHTML = `
     <span>Caesar Cipher</span>
-    <br>
     <span>Binary</span>
-    <br>
     <span>Pig Latin</span>
-    <br>
     <span>Context Menu</span>
 `;
 

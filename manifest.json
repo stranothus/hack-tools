@@ -13,7 +13,8 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["index.js"]
+            "js": ["index.js"],
+            "css": ["contextmenu.css"]
         }
     ],
     "browser_action": {
