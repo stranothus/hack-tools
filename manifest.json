@@ -1,0 +1,22 @@
+
+{
+    "manifest_version" : 2,
+    "name" : "Hack Tool",
+    "version" : "1.0.0",
+    "description" : "Provide basic tools for encryption/decription, saving passwords, and more",
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "declarativeContent",
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["index.js"]
+        }
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    }
+}
