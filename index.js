@@ -5,7 +5,7 @@ String.prototype.map = function(func) {
 };
 
 function caesar(string, cipher) {
-    return string.map(v => alphabet.indexOf(v) + 1 ? (alphabet[(alphabet.indexOf(v) + cipher) % alphabet.length])[v.toLowerCase() === v ? "toLowerCase" : "toUpperCase"]() : v);
+    return string.map(v => alphabet.indexOf(v.toLowerCase()) + 1 ? (alphabet[(alphabet.indexOf(v.toLowerCase()) + cipher) % alphabet.length])[v.toLowerCase() === v ? "toLowerCase" : "toUpperCase"]() : v);
 }
 
 String.prototype.caesar = function(cipher) {
