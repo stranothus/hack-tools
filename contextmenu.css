@@ -29,3 +29,22 @@
     background-color: #E0E0E0;
     transition: 0.2s all;
 }
+
+
+#hack-tool-textbox {
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #00000050;
+    background-color: #FFFFFF;
+    z-index: 1000;
+}
+#hack-tool-textbox #hack-tool-ouput {
+    font-family: monospace;
+    font-size: 1.1rem;
+    color: #FFFFFF;
+    background-color: #202020;
+    padding: 5px 10px;
+}
+#hack-tool-textbox #hack-tool-input {
+    width: 100%;
+}
