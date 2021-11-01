@@ -31,6 +31,35 @@ function getSelectionText() {
     return text;
 }
 
+const contextmenu = document.createElement("div");
+contextmenu.id = "hack-tool-contextmenu"
+
+contextmenu.innerHTML = `
+    <span>Caesar Cipher</span>
+    <br>
+    <span>Binary</span>
+    <br>
+    <span>Pig Latin</span>
+    <br>
+    <span>Context Menu</span>
+`;
+
 window.addEventListener("contextmenu", event => {
-    console.log(getSelectionText());
+    let text = getSelectionText();
+
+    if(text) {
+        event.preventDefault();
+        document.body.appendChild(contextmenu);
+
+        contextmenu.style.position = "fixed";
+        contextmenu.style.top = event.clientY+ "px";
+        contextmenu.style.left = event.clientX + "px";
+        contextmenu.style.display = "inline-block";
+
+        window.addEventListener("click", event => {
+            event.preventDefault();
+
+            document.body.removeChild(contextmenu);
+        }, { once: true });
+    }
 })
