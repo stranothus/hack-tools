@@ -3,7 +3,7 @@
     "manifest_version" : 2,
     "name" : "Hack Tool",
     "version" : "1.0.0",
-    "description" : "Provide basic tools for encryption/decription, saving passwords, and more",
+    "description" : "Provide basic tools for encryption/decryption, saving passwords, and more",
     "permissions": [
         "activeTab",
         "tabs",
