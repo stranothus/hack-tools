@@ -1,4 +1,5 @@
 const alphabet = "abcdefghijklmnopqrstuvwxyz";
+const vowels = "aeiou";
 
 String.prototype.map = function(func) {
     return this.split("").map(func).join("");
@@ -54,7 +55,10 @@ contextmenu.innerHTML = `
     <span id = "hack-tool-real-contextmenu">Context Menu</span>
 `;
 
-const caesarCipher = contextmenu.querySelector("#hack-tool-caesar")
+const caesarCipher = contextmenu.querySelector("#hack-tool-caesar");
+const binary = contextmenu.querySelector("#hack-tool-binary");
+const pigLatin = contextmenu.querySelector("#hack-tool-latin");
+const realContextmenu = contextmenu.querySelector("#hack-tool-real-contextmenu");
 
 window.addEventListener("contextmenu", event => {
     text = getSelectionText();
@@ -98,6 +102,35 @@ caesarCipher.addEventListener("click", event => {
     input.onkeyup = input.onchange = input.oninput = event => {
         output.textContent = caesar(text, input.value ? Number(input.value) : 0);
     }
+
+    function erase() {
+        window.addEventListener("click", event => {
+            event.preventDefault();
+
+            let t = textbox.getBoundingClientRect();
+
+            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
+                erase();
+                return;
+            }
+            document.body.removeChild(textbox);
+        }, { once: true });
+    }
+
+    setTimeout(erase, 100);
+});
+
+pigLatin.addEventListener("click", event => {
+    textbox.innerHTML = `
+        <div id = "hack-tool-ouput">${text.split(" ").map(v => (!(vowels.indexOf(v[0]) + 1) ? v.substring(1) + v[0].toLowerCase() : v) + "ay").join(" ")}</div>
+    `;
+
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
+
+    document.body.appendChild(textbox);
 
     function erase() {
         window.addEventListener("click", event => {
