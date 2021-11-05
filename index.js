@@ -148,3 +148,11 @@ pigLatin.addEventListener("click", event => {
 
     setTimeout(erase, 100);
 });
+
+realContextmenu.addEventListener("contextmenu", event => {
+    if (window.getSelection) {
+        window.getSelection().removeAllRanges();
+    } else if (document.selection) {
+        document.selection.empty();
+    }
+});
