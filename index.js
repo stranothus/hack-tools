@@ -38,6 +38,15 @@ function erase(element) {
     }, { once: true });
 }
 
+function setTextbox(event) {
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
+
+    document.body.appendChild(textbox);
+}
+
 function getSelectionText() {
     let text = "";
     if (window.getSelection) {
@@ -102,12 +111,7 @@ caesarCipher.addEventListener("click", event => {
         <input type = "number" id = "hack-tool-input">
     `;
 
-    textbox.style.position = "fixed";
-    textbox.style.top = event.clientY+ "px";
-    textbox.style.left = event.clientX + "px";
-    textbox.style.display = "inline-block";
-
-    document.body.appendChild(textbox);
+    setTextbox(event);
 
     let input = textbox.querySelector("#hack-tool-input");
     let output = textbox.querySelector("#hack-tool-output");
@@ -124,12 +128,7 @@ toBinary.addEventListener("click", event => {
         <div id = "hack-tool-output">${text}</div>
     `;
 
-    textbox.style.position = "fixed";
-    textbox.style.top = event.clientY+ "px";
-    textbox.style.left = event.clientX + "px";
-    textbox.style.display = "inline-block";
-
-    document.body.appendChild(textbox);
+    setTextbox(event);
 
     let output = textbox.querySelector("#hack-tool-output");
 
@@ -143,12 +142,7 @@ fromBinary.addEventListener("click", event => {
         <div id = "hack-tool-output">${text}</div>
     `;
 
-    textbox.style.position = "fixed";
-    textbox.style.top = event.clientY+ "px";
-    textbox.style.left = event.clientX + "px";
-    textbox.style.display = "inline-block";
-
-    document.body.appendChild(textbox);
+    setTextbox(event);
 
     let output = textbox.querySelector("#hack-tool-output");
 
@@ -162,12 +156,7 @@ toB64.addEventListener("click", event => {
         <div id = "hack-tool-output">${text}</div>
     `;
 
-    textbox.style.position = "fixed";
-    textbox.style.top = event.clientY+ "px";
-    textbox.style.left = event.clientX + "px";
-    textbox.style.display = "inline-block";
-
-    document.body.appendChild(textbox);
+    setTextbox(event);
 
     let output = textbox.querySelector("#hack-tool-output");
 
@@ -181,12 +170,7 @@ fromB64.addEventListener("click", event => {
         <div id = "hack-tool-output">${text}</div>
     `;
 
-    textbox.style.position = "fixed";
-    textbox.style.top = event.clientY+ "px";
-    textbox.style.left = event.clientX + "px";
-    textbox.style.display = "inline-block";
-
-    document.body.appendChild(textbox);
+    setTextbox(event);
 
     let output = textbox.querySelector("#hack-tool-output");
 
@@ -200,12 +184,7 @@ pigLatin.addEventListener("click", event => {
         <div id = "hack-tool-ouput">${text.split(" ").map(v => (!(vowels.indexOf(v[0]) + 1) ? v.substring(1) + v[0].toLowerCase() : v) + "ay").join(" ")}</div>
     `;
 
-    textbox.style.position = "fixed";
-    textbox.style.top = event.clientY+ "px";
-    textbox.style.left = event.clientX + "px";
-    textbox.style.display = "inline-block";
-
-    document.body.appendChild(textbox);
+    setTextbox(event);
 
     setTimeout(() => erase(textbox), 100);
 });
@@ -217,12 +196,7 @@ base.addEventListener("click", event => {
         <input type = "number" min = "2" max = "36" id = "hack-tool-to" value = "10">
     `;
 
-    textbox.style.position = "fixed";
-    textbox.style.top = event.clientY+ "px";
-    textbox.style.left = event.clientX + "px";
-    textbox.style.display = "inline-block";
-
-    document.body.appendChild(textbox);
+    setTextbox(event);
 
     let output = textbox.querySelector("#hack-tool-output");
     let from = textbox.querySelector("#hack-tool-from");
