@@ -52,12 +52,14 @@ contextmenu.innerHTML = `
     <span id = "hack-tool-caesar">Caesar Cipher</span>
     <span id = "hack-tool-binary">Binary</span>
     <span id = "hack-tool-latin">Pig Latin</span>
+    <span id = "hack-tool-base">Base</span>
     <span id = "hack-tool-real-contextmenu">Context Menu</span>
 `;
 
 const caesarCipher = contextmenu.querySelector("#hack-tool-caesar");
 const binary = contextmenu.querySelector("#hack-tool-binary");
 const pigLatin = contextmenu.querySelector("#hack-tool-latin");
+const base = contextmenu.querySelector("#hack-tool-base");
 const realContextmenu = contextmenu.querySelector("#hack-tool-real-contextmenu");
 
 window.addEventListener("contextmenu", event => {
@@ -85,7 +87,7 @@ textbox.id = "hack-tool-textbox";
 
 caesarCipher.addEventListener("click", event => {
     textbox.innerHTML = `
-        <div id = "hack-tool-ouput">${text}</div>
+        <div id = "hack-tool-output">${text}</div>
         <input type = "number" id = "hack-tool-input">
     `;
 
@@ -97,7 +99,7 @@ caesarCipher.addEventListener("click", event => {
     document.body.appendChild(textbox);
 
     let input = textbox.querySelector("#hack-tool-input");
-    let output = textbox.querySelector("#hack-tool-ouput");
+    let output = textbox.querySelector("#hack-tool-output");
 
     input.onkeyup = input.onchange = input.oninput = event => {
         output.textContent = caesar(text, input.value ? Number(input.value) : 0);
@@ -148,6 +150,48 @@ pigLatin.addEventListener("click", event => {
 
     setTimeout(erase, 100);
 });
+
+base.addEventListener("click", event => {
+    textbox.innerHTML = `
+        <div id = "hack-tool-output">${text}</div>
+        <input type = "number" min = "2" max = "36" id = "hack-tool-from" value = "10">
+        <input type = "number" min = "2" max = "36" id = "hack-tool-to" value = "10">
+    `;
+
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
+
+    document.body.appendChild(textbox);
+
+    let output = textbox.querySelector("#hack-tool-output");
+    let from = textbox.querySelector("#hack-tool-from");
+    let to = textbox.querySelector("#hack-tool-to");
+
+    from.onkeyup = from.onchange = from.oninput = to.onkeyup = to.onchange = to.oninput = event => {
+        let f = Number(from.value);
+        let t = Number(to.value);
+        output.textContent = f === 10 ? Number(text).toString(t) : (to === 10 ? parseInt(text, f) : parseInt(text, f).toString(t));
+    }
+
+    function erase() {
+        window.addEventListener("click", event => {
+            event.preventDefault();
+
+            let t = textbox.getBoundingClientRect();
+
+            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
+                erase();
+                return;
+            }
+            document.body.removeChild(textbox);
+        }, { once: true });
+    }
+
+    setTimeout(erase, 100);
+});
+
 
 realContextmenu.addEventListener("contextmenu", event => {
     if (window.getSelection) {
