@@ -50,14 +50,16 @@ contextmenu.id = "hack-tool-contextmenu";
 
 contextmenu.innerHTML = `
     <span id = "hack-tool-caesar">Caesar Cipher</span>
-    <span id = "hack-tool-binary">Binary</span>
+    <span id = "hack-tool-to-binary">To Binary</span>
+    <span id = "hack-tool-from-binary">From Binary</span>
     <span id = "hack-tool-latin">Pig Latin</span>
     <span id = "hack-tool-base">Base</span>
     <span id = "hack-tool-real-contextmenu">Context Menu</span>
 `;
 
 const caesarCipher = contextmenu.querySelector("#hack-tool-caesar");
-const binary = contextmenu.querySelector("#hack-tool-binary");
+const toBinary = contextmenu.querySelector("#hack-tool-to-binary");
+const fromBinary = contextmenu.querySelector("#hack-tool-from-binary");
 const pigLatin = contextmenu.querySelector("#hack-tool-latin");
 const base = contextmenu.querySelector("#hack-tool-base");
 const realContextmenu = contextmenu.querySelector("#hack-tool-real-contextmenu");
@@ -104,6 +106,39 @@ caesarCipher.addEventListener("click", event => {
     input.onkeyup = input.onchange = input.oninput = event => {
         output.textContent = caesar(text, input.value ? Number(input.value) : 0);
     }
+
+    function erase() {
+        window.addEventListener("click", event => {
+            event.preventDefault();
+
+            let t = textbox.getBoundingClientRect();
+
+            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
+                erase();
+                return;
+            }
+            document.body.removeChild(textbox);
+        }, { once: true });
+    }
+
+    setTimeout(erase, 100);
+});
+
+toBinary.addEventListener("click", event => {
+    textbox.innerHTML = `
+        <div id = "hack-tool-output">${text}</div>
+    `;
+
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
+
+    document.body.appendChild(textbox);
+
+    let output = textbox.querySelector("#hack-tool-output");
+
+    output.textContent = text.split("").map(v => "0" + v.charCodeAt(0).toString(2)).join(" ");
 
     function erase() {
         window.addEventListener("click", event => {
