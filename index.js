@@ -157,6 +157,39 @@ toBinary.addEventListener("click", event => {
     setTimeout(erase, 100);
 });
 
+fromBinary.addEventListener("click", event => {
+    textbox.innerHTML = `
+        <div id = "hack-tool-output">${text}</div>
+    `;
+
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
+
+    document.body.appendChild(textbox);
+
+    let output = textbox.querySelector("#hack-tool-output");
+
+    output.textContent = text.split(" ").map(v => String.fromCharCode(parseInt(v, 2))).join("");
+
+    function erase() {
+        window.addEventListener("click", event => {
+            event.preventDefault();
+
+            let t = textbox.getBoundingClientRect();
+
+            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
+                erase();
+                return;
+            }
+            document.body.removeChild(textbox);
+        }, { once: true });
+    }
+
+    setTimeout(erase, 100);
+});
+
 pigLatin.addEventListener("click", event => {
     textbox.innerHTML = `
         <div id = "hack-tool-ouput">${text.split(" ").map(v => (!(vowels.indexOf(v[0]) + 1) ? v.substring(1) + v[0].toLowerCase() : v) + "ay").join(" ")}</div>
