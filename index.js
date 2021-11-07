@@ -24,13 +24,18 @@ String.prototype.caesar = function(cipher) {
     return caesar(this, cipher);
 };
 
-function factorial(number) {
-    let toReturn = number;
-    while(number > 1) {
-        number--;
-        toReturn *= number;
-    }
-    return toReturn;
+function erase(element) {
+    window.addEventListener("click", event => {
+        event.preventDefault();
+
+        let t = element.getBoundingClientRect();
+
+        if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
+            erase(element);
+            return;
+        }
+        element.parentElement.removeChild(element);
+    }, { once: true });
 }
 
 function getSelectionText() {
@@ -52,6 +57,8 @@ contextmenu.innerHTML = `
     <span id = "hack-tool-caesar">Caesar Cipher</span>
     <span id = "hack-tool-to-binary">To Binary</span>
     <span id = "hack-tool-from-binary">From Binary</span>
+    <span id = "hack-tool-to-b64">To Base64</span>
+    <span id = "hack-tool-from-b64">From Base64</span>
     <span id = "hack-tool-latin">Pig Latin</span>
     <span id = "hack-tool-base">Base</span>
     <span id = "hack-tool-real-contextmenu">Context Menu</span>
@@ -60,6 +67,8 @@ contextmenu.innerHTML = `
 const caesarCipher = contextmenu.querySelector("#hack-tool-caesar");
 const toBinary = contextmenu.querySelector("#hack-tool-to-binary");
 const fromBinary = contextmenu.querySelector("#hack-tool-from-binary");
+const toB64 = contextmenu.querySelector("#hack-tool-to-b64");
+const fromB64 = contextmenu.querySelector("#hack-tool-from-b64");
 const pigLatin = contextmenu.querySelector("#hack-tool-latin");
 const base = contextmenu.querySelector("#hack-tool-base");
 const realContextmenu = contextmenu.querySelector("#hack-tool-real-contextmenu");
@@ -107,21 +116,7 @@ caesarCipher.addEventListener("click", event => {
         output.textContent = caesar(text, input.value ? Number(input.value) : 0);
     }
 
-    function erase() {
-        window.addEventListener("click", event => {
-            event.preventDefault();
-
-            let t = textbox.getBoundingClientRect();
-
-            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
-                erase();
-                return;
-            }
-            document.body.removeChild(textbox);
-        }, { once: true });
-    }
-
-    setTimeout(erase, 100);
+    setTimeout(() => erase(textbox), 100);
 });
 
 toBinary.addEventListener("click", event => {
@@ -140,21 +135,7 @@ toBinary.addEventListener("click", event => {
 
     output.textContent = text.split("").map(v => "0" + v.charCodeAt(0).toString(2)).join(" ");
 
-    function erase() {
-        window.addEventListener("click", event => {
-            event.preventDefault();
-
-            let t = textbox.getBoundingClientRect();
-
-            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
-                erase();
-                return;
-            }
-            document.body.removeChild(textbox);
-        }, { once: true });
-    }
-
-    setTimeout(erase, 100);
+    setTimeout(() => erase(textbox), 100);
 });
 
 fromBinary.addEventListener("click", event => {
@@ -173,21 +154,45 @@ fromBinary.addEventListener("click", event => {
 
     output.textContent = text.split(" ").map(v => String.fromCharCode(parseInt(v, 2))).join("");
 
-    function erase() {
-        window.addEventListener("click", event => {
-            event.preventDefault();
+    setTimeout(() => erase(textbox), 100);
+});
 
-            let t = textbox.getBoundingClientRect();
+toB64.addEventListener("click", event => {
+    textbox.innerHTML = `
+        <div id = "hack-tool-output">${text}</div>
+    `;
 
-            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
-                erase();
-                return;
-            }
-            document.body.removeChild(textbox);
-        }, { once: true });
-    }
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
 
-    setTimeout(erase, 100);
+    document.body.appendChild(textbox);
+
+    let output = textbox.querySelector("#hack-tool-output");
+
+    output.textContent = btoa(text);
+
+    setTimeout(() => erase(textbox), 100);
+});
+
+fromB64.addEventListener("click", event => {
+    textbox.innerHTML = `
+        <div id = "hack-tool-output">${text}</div>
+    `;
+
+    textbox.style.position = "fixed";
+    textbox.style.top = event.clientY+ "px";
+    textbox.style.left = event.clientX + "px";
+    textbox.style.display = "inline-block";
+
+    document.body.appendChild(textbox);
+
+    let output = textbox.querySelector("#hack-tool-output");
+
+    output.textContent = atob(text);
+
+    setTimeout(() => erase(textbox), 100);
 });
 
 pigLatin.addEventListener("click", event => {
@@ -202,21 +207,7 @@ pigLatin.addEventListener("click", event => {
 
     document.body.appendChild(textbox);
 
-    function erase() {
-        window.addEventListener("click", event => {
-            event.preventDefault();
-
-            let t = textbox.getBoundingClientRect();
-
-            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
-                erase();
-                return;
-            }
-            document.body.removeChild(textbox);
-        }, { once: true });
-    }
-
-    setTimeout(erase, 100);
+    setTimeout(() => erase(textbox), 100);
 });
 
 base.addEventListener("click", event => {
@@ -243,21 +234,7 @@ base.addEventListener("click", event => {
         output.textContent = f === 10 ? Number(text).toString(t) : (to === 10 ? parseInt(text, f) : parseInt(text, f).toString(t));
     }
 
-    function erase() {
-        window.addEventListener("click", event => {
-            event.preventDefault();
-
-            let t = textbox.getBoundingClientRect();
-
-            if(event.clientY >= t.top && event.clientY <= t.bottom && event.clientX >= t.left && event.clientX <= t.right) {
-                erase();
-                return;
-            }
-            document.body.removeChild(textbox);
-        }, { once: true });
-    }
-
-    setTimeout(erase, 100);
+    setTimeout(() => erase(textbox), 100);
 });
 
 
