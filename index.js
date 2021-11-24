@@ -181,7 +181,13 @@ fromB64.addEventListener("click", event => {
 
 pigLatin.addEventListener("click", event => {
     textbox.innerHTML = `
-        <div id = "hack-tool-ouput">${text.split(" ").map(v => (!(vowels.indexOf(v[0]) + 1) ? v.substring(1) + v[0].toLowerCase() : v) + "ay").join(" ")}</div>
+        <div id = "hack-tool-ouput">${text.split(" ").map(v => {
+            let start = v.match(/^[^aeiouy]+/);
+
+            if(!start) return v + "ay";
+
+            return v.substring(start[0].length) + start[0] + "ay";
+        }).join(" ")}</div>
     `;
 
     setTextbox(event);
