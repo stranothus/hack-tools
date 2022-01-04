@@ -34,7 +34,14 @@ function erase(element) {
             erase(element);
             return;
         }
-        element.parentElement.removeChild(element);
+        element.animate([
+            { opacity: 1 },
+            { opacity: 0 }
+        ], {
+            duration: 100,
+            fill: "forwards"
+        });
+        window.setTimeout(() => element.parentElement.removeChild(element), 100);
     }, { once: true });
 }
 
@@ -44,6 +51,13 @@ function setTextbox(event) {
     textbox.style.left = event.clientX + "px";
     textbox.style.display = "inline-block";
 
+    textbox.animate([
+        { opacity: 0 },
+        { opacity: 1 }
+    ], {
+        duration: 100,
+        fill: "forwards"
+    });
     document.body.appendChild(textbox);
 }
 
@@ -87,8 +101,15 @@ window.addEventListener("contextmenu", event => {
 
     if(text) {
         event.preventDefault();
+        contextmenu.animate([
+            { opacity: 0 },
+            { opacity: 1 }
+        ], {
+            duration: 100,
+            fill: "forwards"
+        });
         document.body.appendChild(contextmenu);
-
+    
         contextmenu.style.position = "fixed";
         contextmenu.style.top = event.clientY+ "px";
         contextmenu.style.left = event.clientX + "px";
@@ -97,7 +118,14 @@ window.addEventListener("contextmenu", event => {
         window.addEventListener("click", event => {
             event.preventDefault();
 
-            document.body.removeChild(contextmenu);
+            contextmenu.animate([
+                { opacity: 1 },
+                { opacity: 0 }
+            ], {
+                duration: 100,
+                fill: "forwards"
+            });
+            window.setTimeout(() => contextmenu.parentElement.removeChild(contextmenu), 100);
         }, { once: true });
     }
 });
